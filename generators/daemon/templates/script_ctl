@@ -4,7 +4,7 @@ require "daemons"
 require 'yaml'
 require 'erb'
 
-RAILS_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?(RAILS_ROOT)
+RAILS_ROOT = "#{File.dirname(__FILE__)}/../.." unless defined?(RAILS_ROOT)
 
 file_name = "#{RAILS_ROOT}/vendor/rails/activesupport/lib/active_support.rb"
 
