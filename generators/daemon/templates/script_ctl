@@ -20,9 +20,9 @@ end
 
 options = YAML.load(
   ERB.new(
-  IO.read(
-  File.dirname(__FILE__) + "#{RAILS_ROOT}/config/daemons.yml"
-  )).result).with_indifferent_access
+    IO.read("#{RAILS_ROOT}/config/daemons.yml")
+  ).result
+).with_indifferent_access
 options[:dir_mode] = options[:dir_mode].to_sym
 
 Daemons.run File.dirname(__FILE__) + '/<%=file_name%>.rb', options
