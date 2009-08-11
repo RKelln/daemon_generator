@@ -4,21 +4,24 @@ require "daemons"
 require 'yaml'
 require 'erb'
 
-file_name = File.dirname(__FILE__) + "/../../vendor/rails/activesupport/lib/active_support.rb"
+RAILS_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?(RAILS_ROOT)
+
+file_name = "#{RAILS_ROOT}/vendor/rails/activesupport/lib/active_support.rb"
 
 if(File.exists?(file_name))
   require file_name
 else
-rails_version = File.new(File.dirname(__FILE__)+ "/../../config/environment.rb").read.scan(/^ *RAILS_GEM_VERSION.*=.*['|"](.*)['|"]/)[0].to_s
+  rails_version = File.read("#{RAILS_ROOT}/config/environment.rb").scan(
+  /^[^#]*RAILS_GEM_VERSION\s*=\s*["']([!~<>=]*\s*[\d.]+)["']/)[0].join
 
-gem 'activesupport', rails_version
-require 'active_support'
+  gem 'activesupport', rails_version
+  require 'active_support'
 end
 
 options = YAML.load(
   ERB.new(
   IO.read(
-  File.dirname(__FILE__) + "/../../config/daemons.yml"
+  File.dirname(__FILE__) + "#{RAILS_ROOT}/config/daemons.yml"
   )).result).with_indifferent_access
 options[:dir_mode] = options[:dir_mode].to_sym
 
